@@ -62,7 +62,7 @@ gestion-pedidos-api/
 
 ### 1. Preparar el entorno e instalar librerías
 ```bash
-git clone <URL_DE_TU_REPOSITORIO>
+git clone https://github.com/Betoven0/gestion-pedidos-api.git
 cd gestion-pedidos-api
 python3 -m venv venv
 source venv/bin/activate
