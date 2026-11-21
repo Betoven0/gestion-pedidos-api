@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <meta content="web_dashboard" name="shell-type" />
+  <title>Gestión de Pedidos API — Developer & Orders Console</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0e18; }
+    ::-webkit-scrollbar-thumb { background: #313540; border-radius: 4px; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-tint": "#c0c1ff",
+            "on-secondary-fixed-variant": "#005236",
+            "on-primary": "#1000a9",
+            "on-tertiary-fixed": "#301400",
+            "error": "#ffb4ab",
+            "on-secondary": "#003824",
+            "error-container": "#93000a",
+            "on-surface": "#dfe2f1",
+            "on-primary-fixed": "#07006c",
+            "secondary-container": "#00a572",
+            "on-surface-variant": "#c7c4d7",
+            "secondary-fixed": "#6ffbbe",
+            "background": "#0f131d",
+            "surface-container-low": "#171b26",
+            "inverse-primary": "#494bd6",
+            "on-tertiary-container": "#452000",
+            "surface-dim": "#0f131d",
+            "inverse-on-surface": "#2c303b",
+            "on-background": "#dfe2f1",
+            "on-primary-container": "#0d0096",
+            "on-primary-fixed-variant": "#2f2ebe",
+            "inverse-surface": "#dfe2f1",
+            "surface": "#0f131d",
+            "surface-container-highest": "#313540",
+            "primary-fixed-dim": "#c0c1ff",
+            "tertiary-fixed-dim": "#ffb783",
+            "surface-container-lowest": "#0a0e18",
+            "surface-container-high": "#262a35",
+            "primary": "#c0c1ff",
+            "tertiary-container": "#d97721",
+            "surface-container": "#1c1f2a",
+            "on-error-container": "#ffdad6",
+            "on-secondary-fixed": "#002113",
+            "secondary-fixed-dim": "#4edea3",
+            "secondary": "#4edea3",
+            "on-tertiary": "#4f2500",
+            "tertiary-fixed": "#ffdcc5",
+            "on-tertiary-fixed-variant": "#703700",
+            "outline": "#908fa0",
+            "outline-variant": "#464554",
+            "tertiary": "#ffb783",
+            "on-error": "#690005",
+            "surface-variant": "#313540",
+            "surface-bright": "#353944",
+            "primary-container": "#8083ff",
+            "on-secondary-container": "#00311f",
+            "primary-fixed": "#e1e0ff"
+          },
+          borderRadius: {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          spacing: {
+            "gutter": "1.5rem",
+            "space-md": "1rem",
+            "space-lg": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "margin": "2rem"
+          },
+          fontFamily: {
+            "body-sm": ["Inter", "sans-serif"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "headline-lg-mobile": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "title-md": ["Inter", "sans-serif"],
+            "code-sm": ["JetBrains Mono", "monospace"],
+            "headline-lg": ["Inter", "sans-serif"],
+            "title-lg": ["Inter", "sans-serif"],
+            "headline-sm": ["Inter", "sans-serif"],
+            "code-md": ["JetBrains Mono", "monospace"],
+            "headline-md": ["Inter", "sans-serif"]
+          },
+          fontSize: {
+            "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "code-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "title-lg": ["18px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "code-md": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "600" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen">
+
+  <!-- SIDEBAR LATERAL (Stitch Navigation Shell) -->
+  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low border-r border-outline-variant z-50 flex flex-col pt-space-lg pb-space-lg">
+    <div class="px-space-lg mb-space-lg flex items-center gap-space-sm">
+      <span class="material-symbols-outlined text-primary text-[22px]">api</span>
+      <span class="font-title-md text-title-md text-on-surface tracking-tight">
+        Gestión de Pedidos
+        <span class="font-label-sm text-label-sm text-primary bg-surface-container-high px-space-xs py-0.5 rounded-lg">v1.0</span>
+      </span>
+    </div>
+
+    <nav class="flex-1 px-space-md space-y-space-xs overflow-y-auto" id="sidebar-nav">
+      <button onclick="switchView('orders')" data-view="orders" class="nav-link w-full flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-xl text-body-sm font-body-sm text-left">
+        <span class="material-symbols-outlined text-[18px]">inventory_2</span>
+        <span>Mis Pedidos &amp; Sesión</span>
+      </button>
+      <button onclick="switchView('overview')" data-view="overview" class="nav-link w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-body-sm font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-left">
+        <span class="material-symbols-outlined text-[18px]">dashboard</span>
+        <span>Overview &amp; Quickstart</span>
+      </button>
+      <button onclick="switchView('playground')" data-view="playground" class="nav-link w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-body-sm font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-left">
+        <span class="material-symbols-outlined text-[18px]">terminal</span>
+        <span>API Playground</span>
+      </button>
+      <button onclick="switchView('endpoints')" data-view="endpoints" class="nav-link w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-body-sm font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-left">
+        <span class="material-symbols-outlined text-[18px]">menu_book</span>
+        <span>Endpoint Reference</span>
+      </button>
+    </nav>
+
+    <!-- Estado de salud en vivo en la parte inferior del Sidebar -->
+    <div class="px-space-md mt-auto pt-space-md border-t border-outline-variant/50">
+      <div class="bg-surface-container-lowest rounded-xl p-space-sm flex items-center justify-between">
+        <div class="flex items-center gap-space-xs">
+          <span id="sidebar-health-dot" class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+          <span id="sidebar-health-text" class="font-label-sm text-label-sm text-on-surface-variant">DB: CHECKING...</span>
+        </div>
+        <span id="sidebar-health-env" class="font-code-sm text-code-sm text-primary">FastAPI</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="pl-64">
+    <!-- HEADER SUPERIOR (Stitch Topbar) -->
+    <header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-outline-variant z-40 px-margin flex items-center justify-between gap-gutter">
+      <nav class="hidden lg:flex items-center gap-space-lg">
+        <button onclick="switchView('orders')" data-top-view="orders" class="top-nav-link transition-colors text-primary font-semibold font-body-sm text-body-sm">Mis Pedidos</button>
+        <button onclick="switchView('overview')" data-top-view="overview" class="top-nav-link font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors">Overview</button>
+        <button onclick="switchView('playground')" data-top-view="playground" class="top-nav-link font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors">Playground</button>
+        <button onclick="switchView('endpoints')" data-top-view="endpoints" class="top-nav-link font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors">Endpoints</button>
+      </nav>
+
+      <div class="flex-1 max-w-md mx-auto">
+        <button onclick="switchView('endpoints')" class="w-full flex items-center justify-between px-space-md py-space-sm bg-surface-container-lowest border border-outline-variant rounded-xl text-on-surface-variant hover:border-outline transition-colors" type="button">
+          <span class="flex items-center gap-space-sm font-body-sm text-body-sm">
+            <span class="material-symbols-outlined text-[18px]">search</span>
+            Explorar endpoints (/orders, /users, /auth)...
+          </span>
+          <kbd class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-space-xs py-0.5 rounded-lg border border-outline-variant">API v1</kbd>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-space-md">
+        <a class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl border border-outline-variant bg-surface-container-low text-on-surface hover:bg-surface-container-high font-body-sm text-body-sm transition-colors" href="/docs" target="_blank">
+          <span class="material-symbols-outlined text-[18px] text-primary">bolt</span>
+          <span>Swagger Docs</span>
+        </a>
+        <div id="header-user-badge" class="flex items-center gap-space-sm bg-surface-container-low px-space-sm py-space-xs rounded-xl border border-outline-variant">
+          <div class="w-7 h-7 rounded-lg bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[16px]">person</span>
+          </div>
+          <span id="header-username" class="font-body-sm text-body-sm text-on-surface-variant">Invitado</span>
+          <button id="header-logout-btn" onclick="logout()" class="hidden text-error hover:underline font-label-sm text-label-sm ml-space-xs" type="button">SALIR</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- CAJA DE NOTIFICACIONES FLOTANTE (Toast Alert) -->
+    <div id="toast-box" class="hidden fixed top-20 right-8 z-50 max-w-md px-space-lg py-space-md rounded-xl shadow-xl border flex items-center gap-space-sm transition-all">
+      <span id="toast-icon" class="material-symbols-outlined text-[20px]">info</span>
+      <span id="toast-message" class="font-body-sm text-body-sm font-medium"></span>
+    </div>
+
+    <main class="relative pt-16 bg-surface w-full px-margin">
+
+      <!-- =================================================================== -->
+      <!-- VISTA 1: MIS PEDIDOS & SESIÓN JWT (Stitch Telemetry & Orders View)  -->
+      <!-- =================================================================== -->
+      <div id="view-orders" class="view-section flex flex-col w-full gap-space-xl pb-space-xl">
+
+        <!-- Header de Sección -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-space-md pt-space-lg">
+          <div class="flex flex-col gap-space-xs">
+            <div class="flex items-center gap-space-sm">
+              <span class="font-label-sm text-label-sm uppercase text-primary">01 / OPERACIONES &amp; TELEMETRÍA</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant">DECIMAL(10,2) • STATE MACHINE ACTIVE</span>
+            </div>
+            <h1 class="font-headline-md text-headline-md text-on-surface">Panel de Gestión de Pedidos</h1>
+          </div>
+
+          <div class="flex items-center gap-space-sm">
+            <button onclick="loadOrders()" class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl bg-surface-container-low hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors" type="button">
+              <span class="material-symbols-outlined text-[16px] text-secondary">refresh</span>
+              <span>ACTUALIZAR</span>
+            </button>
+            <button id="openCreateOrderModalBtn" onclick="openOrderModal()" class="hidden flex items-center gap-space-xs px-space-md py-space-sm rounded-xl bg-primary text-on-primary font-body-sm text-body-sm font-semibold shadow-md hover:opacity-90 transition-opacity" type="button">
+              <span class="material-symbols-outlined text-[18px]">add</span>
+              <span>Nuevo Pedido</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SECCIÓN DE LOGIN Y REGISTRO (Visible cuando NO hay sesión activa) -->
+        <section id="auth-cards-section" class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+          <!-- Tarjeta Login -->
+          <div class="relative overflow-hidden rounded-full bg-surface-container p-space-lg shadow-md flex flex-col gap-space-md border border-outline-variant/40">
+            <div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-label-sm text-label-sm uppercase text-primary">OAUTH2 / JWT BEARER</span>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Iniciar Sesión</h2>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[20px]">key</span>
+              </div>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Autentícate contra <code class="font-code-sm text-code-sm text-primary">POST /api/v1/auth/login</code> para obtener tu token JWT firmado con HS256.
+            </p>
+            <form onsubmit="handleLogin(event)" class="flex flex-col gap-space-md">
+              <div class="flex flex-col gap-space-xs">
+                <label class="font-label-sm text-label-sm uppercase text-on-surface-variant" for="login-email">Correo Electrónico</label>
+                <input id="login-email" type="email" required placeholder="cliente@ejemplo.com" class="w-full px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md focus:outline-none focus:border-primary" />
+              </div>
+              <div class="flex flex-col gap-space-xs">
+                <label class="font-label-sm text-label-sm uppercase text-on-surface-variant" for="login-password">Contraseña (8-72 caracteres)</label>
+                <input id="login-password" type="password" required minlength="8" maxlength="72" placeholder="••••••••" class="w-full px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md focus:outline-none focus:border-primary" />
+              </div>
+              <button type="submit" class="w-full flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-xl bg-primary text-on-primary font-body-sm text-body-sm font-semibold shadow-md hover:opacity-90 transition-opacity">
+                <span class="material-symbols-outlined text-[18px]">login</span>
+                <span>Entrar al Panel</span>
+              </button>
+            </form>
+          </div>
+
+          <!-- Tarjeta Registro -->
+          <div class="relative overflow-hidden rounded-full bg-surface-container p-space-lg shadow-md flex flex-col gap-space-md border border-outline-variant/40">
+            <div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-secondary/10 blur-2xl pointer-events-none"></div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-label-sm text-label-sm uppercase text-secondary">BCRYPT THREADPOOL • NORMALIZED EMAIL</span>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Crear Cuenta Nueva</h2>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[20px]">person_add</span>
+              </div>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant">
+              Registra un usuario en <code class="font-code-sm text-code-sm text-secondary">POST /api/v1/users/</code>. El correo se normaliza automáticamente a minúsculas.
+            </p>
+            <form onsubmit="handleRegister(event)" class="flex flex-col gap-space-md">
+              <div class="flex flex-col gap-space-xs">
+                <label class="font-label-sm text-label-sm uppercase text-on-surface-variant" for="reg-name">Nombre Completo</label>
+                <input id="reg-name" type="text" maxlength="100" placeholder="Ej. Diego Gómez" class="w-full px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md focus:outline-none focus:border-secondary" />
+              </div>
+              <div class="flex flex-col gap-space-xs">
+                <label class="font-label-sm text-label-sm uppercase text-on-surface-variant" for="reg-email">Correo Electrónico</label>
+                <input id="reg-email" type="email" required placeholder="diego@ejemplo.com" class="w-full px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md focus:outline-none focus:border-secondary" />
+              </div>
+              <div class="flex flex-col gap-space-xs">
+                <label class="font-label-sm text-label-sm uppercase text-on-surface-variant" for="reg-password">Contraseña (mín. 8, máx. 72 caracteres)</label>
+                <input id="reg-password" type="password" required minlength="8" maxlength="72" placeholder="••••••••" class="w-full px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md focus:outline-none focus:border-secondary" />
+              </div>
+              <button type="submit" class="w-full flex items-center justify-center gap-space-xs px-space-md py-space-sm rounded-xl bg-secondary text-on-secondary font-body-sm text-body-sm font-semibold shadow-md hover:opacity-90 transition-opacity">
+                <span class="material-symbols-outlined text-[18px]">how_to_reg</span>
+                <span>Registrar Usuario</span>
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- DASHBOARD AUTENTICADO (Visible cuando SÍ hay token JWT) -->
+        <div id="authenticated-dashboard" class="hidden flex-col gap-space-xl">
+
+          <!-- 3 Tarjetas de Métricas con diseño Stitch -->
+          <section class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+            <!-- Card 1: Total de Pedidos -->
+            <div class="relative overflow-hidden rounded-full bg-surface-container p-space-lg shadow-md flex flex-col justify-between gap-space-md">
+              <div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-primary/10 blur-2xl pointer-events-none"></div>
+              <div class="flex items-start justify-between gap-space-sm">
+                <div class="flex flex-col gap-space-xs">
+                  <span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Total de Pedidos</span>
+                  <div class="flex items-baseline gap-space-sm">
+                    <span id="stat-total" class="font-headline-lg text-headline-lg text-on-surface">0</span>
+                    <span id="stat-pending-badge" class="inline-flex items-center gap-0.5 px-space-sm py-0.5 rounded-lg bg-tertiary/15 text-tertiary font-label-sm text-label-sm">
+                      0 PENDING
+                    </span>
+                  </div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+                </div>
+              </div>
+              <div class="flex items-end justify-between gap-space-md pt-space-sm">
+                <span id="stat-cancelled-text" class="font-body-sm text-body-sm text-on-surface-variant">0 cancelados</span>
+                <svg aria-hidden="true" class="w-28 h-8 text-primary" fill="none" viewBox="0 0 112 32">
+                  <path d="M2 26L18 22L34 24L50 14L66 17L82 8L98 11L110 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                  <path d="M2 26L18 22L34 24L50 14L66 17L82 8L98 11L110 3V30H2V26Z" fill="currentColor" fill-opacity="0.12"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Card 2: Monto Pagado Acumulado -->
+            <div class="relative overflow-hidden rounded-full bg-surface-container p-space-lg shadow-md flex flex-col justify-between gap-space-md">
+              <div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-secondary/10 blur-2xl pointer-events-none"></div>
+              <div class="flex items-start justify-between gap-space-sm">
+                <div class="flex flex-col gap-space-xs">
+                  <span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Monto Pagado (PAID)</span>
+                  <div class="flex items-baseline gap-space-sm">
+                    <span id="stat-amount" class="font-headline-lg text-headline-lg text-on-surface">$0.00</span>
+                    <span id="stat-paid-badge" class="inline-flex items-center gap-0.5 px-space-sm py-0.5 rounded-lg bg-secondary/15 text-secondary font-label-sm text-label-sm">
+                      0 PAGADOS
+                    </span>
+                  </div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-secondary">
+                  <span class="material-symbols-outlined text-[20px]">payments</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-space-md pt-space-sm">
+                <div class="flex items-center gap-space-xs">
+                  <span class="w-1.5 h-4 rounded-lg bg-secondary"></span>
+                  <span class="w-1.5 h-6 rounded-lg bg-secondary"></span>
+                  <span class="w-1.5 h-3 rounded-lg bg-secondary/60"></span>
+                  <span class="w-1.5 h-5 rounded-lg bg-secondary"></span>
+                  <span class="w-1.5 h-4 rounded-lg bg-secondary/80"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Credencial JWT & Usuario Activo -->
+            <div class="relative overflow-hidden rounded-full bg-surface-container p-space-lg shadow-md flex flex-col justify-between gap-space-md">
+              <div class="absolute -right-8 -top-8 w-32 h-32 rounded-full bg-tertiary/10 blur-2xl pointer-events-none"></div>
+              <div class="flex items-start justify-between gap-space-sm">
+                <div class="flex flex-col gap-space-xs min-w-0">
+                  <span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Sesión JWT Activa</span>
+                  <div class="flex items-center gap-space-sm">
+                    <span id="stat-user-email" class="font-title-lg text-title-lg text-on-surface truncate">usuario@ejemplo.com</span>
+                  </div>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-tertiary shrink-0">
+                  <span class="material-symbols-outlined text-[20px]">verified_user</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between gap-space-sm pt-space-sm">
+                <span class="inline-flex items-center gap-space-xs px-space-sm py-0.5 rounded-lg bg-secondary/15 text-secondary font-label-sm text-label-sm">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  <span>CUENTA ACTIVA</span>
+                </span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tabla de Pedidos (Stitch Table Layout) -->
+          <section class="rounded-full bg-surface-container p-space-lg shadow-md flex flex-col gap-space-lg">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+              <div class="flex flex-col gap-space-xs">
+                <span class="font-label-sm text-label-sm uppercase text-primary">02 / HISTORIAL DE ÓRDENES (ORDENADO POR FECHA DESC)</span>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">Mis Pedidos Registrados</h2>
+              </div>
+              <div class="flex items-center gap-space-sm">
+                <span id="ordersCountBadge" class="px-space-md py-space-xs rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">0 PEDIDOS</span>
+                <button onclick="openOrderModal()" class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-primary text-on-primary font-label-sm text-label-sm hover:opacity-90 transition-opacity" type="button">
+                  <span class="material-symbols-outlined text-[15px]">add</span>
+                  <span>CREAR PEDIDO</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase">
+                    <th class="py-space-sm px-space-md rounded-l-xl">ID</th>
+                    <th class="py-space-sm px-space-md">Código Único</th>
+                    <th class="py-space-sm px-space-md">Monto Total</th>
+                    <th class="py-space-sm px-space-md">Estado</th>
+                    <th class="py-space-sm px-space-md">Creado</th>
+                    <th class="py-space-sm px-space-md text-right rounded-r-xl">Acciones (Máquina de Estados)</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody" class="font-body-sm text-body-sm text-on-surface"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- VISTA 2: OVERVIEW & QUICKSTART (Stitch Screen 4 Adaptada)           -->
+      <!-- =================================================================== -->
+      <div id="view-overview" class="view-section hidden flex-col w-full pb-space-xl pt-space-lg">
+        <section class="relative overflow-hidden rounded-full bg-surface-container-low p-space-xl shadow-xl">
+          <div class="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-primary/10 blur-3xl"></div>
+          <div class="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-secondary/10 blur-3xl"></div>
+          <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+            <div class="lg:col-span-7 flex flex-col gap-space-md min-w-0">
+              <div class="flex flex-wrap items-center gap-space-sm">
+                <span class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-secondary/10 text-secondary font-label-sm text-label-sm">
+                  <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                  </span>
+                  <span id="overview-health-status">All Systems Operational (SELECT 1 OK)</span>
+                </span>
+                <span class="px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+                  REST / JSON • PYDANTIC V2
+                </span>
+              </div>
+              <div class="flex flex-col gap-space-xs">
+                <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Gestión de Pedidos API</h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                  API REST de grado producción con precisión financiera <code class="font-code-sm text-primary">Numeric(10, 2)</code>, criptografía <code class="font-code-sm text-secondary">bcrypt</code> en hilos asíncronos, protección contra Timing Attacks y Máquina de Estados Contable.
+                </p>
+              </div>
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md pt-space-sm">
+                <div class="flex items-center justify-between gap-space-md bg-surface-container-lowest px-space-md py-space-sm rounded-xl shadow-sm min-w-0 flex-1 sm:max-w-md">
+                  <div class="flex items-center gap-space-sm min-w-0">
+                    <span class="font-label-sm text-label-sm text-primary uppercase">BASE URL</span>
+                    <code class="font-code-md text-code-md text-on-surface truncate" id="base-url-text">/api/v1</code>
+                  </div>
+                  <button class="shrink-0 inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm" onclick="copyText(window.location.origin + '/api/v1', this)" type="button">
+                    <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                    <span>Copy</span>
+                  </button>
+                </div>
+                <button onclick="switchView('playground')" class="inline-flex items-center justify-center gap-space-sm px-space-lg py-space-sm rounded-xl bg-primary text-on-primary hover:bg-primary-fixed-dim transition-all shadow-md font-title-md text-title-md shrink-0" type="button">
+                  <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                  <span>Abrir Playground</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col gap-space-md bg-surface-container rounded-xl p-space-lg shadow-md">
+              <div class="flex items-center justify-between">
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">HEALTHCHECK TELEMETRY</span>
+                <span id="overview-latency" class="font-code-sm text-code-sm text-secondary">CONNECTED</span>
+              </div>
+              <svg class="w-full h-18 text-secondary" fill="none" viewBox="0 0 280 72" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="uptimeGrad" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="currentColor" stop-opacity="0.28"></stop>
+                    <stop offset="100%" stop-color="currentColor" stop-opacity="0"></stop>
+                  </linearGradient>
+                </defs>
+                <path d="M0 54 L28 48 L56 50 L84 36 L112 40 L140 26 L168 30 L196 18 L224 22 L252 14 L280 16 L280 72 L0 72 Z" fill="url(#uptimeGrad)"></path>
+                <path d="M0 54 L28 48 L56 50 L84 36 L112 40 L140 26 L168 30 L196 18 L224 22 L252 14 L280 16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+                <circle cx="280" cy="16" fill="currentColor" r="4"></circle>
+              </svg>
+              <div class="grid grid-cols-3 gap-space-sm pt-space-xs">
+                <div class="bg-surface-container-low rounded-lg p-space-sm">
+                  <div class="font-label-sm text-label-sm text-on-surface-variant">FINANZAS</div>
+                  <div class="font-title-md text-title-md text-on-surface">Decimal</div>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-space-sm">
+                  <div class="font-label-sm text-label-sm text-on-surface-variant">AUTH</div>
+                  <div class="font-title-md text-title-md text-on-surface">JWT HS256</div>
+                </div>
+                <div class="bg-surface-container-low rounded-lg p-space-sm">
+                  <div class="font-label-sm text-label-sm text-on-surface-variant">TESTS</div>
+                  <div class="font-title-md text-title-md text-secondary">4/4 PASS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Quickstart Guide -->
+        <section class="mt-space-xl grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+          <div class="lg:col-span-5 flex flex-col gap-space-lg">
+            <div class="flex flex-col gap-space-xs">
+              <span class="font-label-sm text-label-sm text-primary uppercase">01 / QUICKSTART GUIDE</span>
+              <h2 class="font-headline-md text-headline-md text-on-surface">Tu primera petición en 60 segundos</h2>
+              <p class="font-body-md text-body-md text-on-surface-variant">Sigue estos 3 pasos para autenticarte y crear un pedido con código autogenerado <code class="font-code-sm text-primary">ORD-YYYYMMDD-XXXXXX</code>.</p>
+            </div>
+            <div class="flex flex-col gap-space-md">
+              <div class="flex gap-space-md bg-surface-container-low p-space-md rounded-xl shadow-sm">
+                <div class="shrink-0 w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-label-sm text-label-sm">01</div>
+                <div class="flex flex-col gap-space-xs min-w-0">
+                  <h3 class="font-title-md text-title-md text-on-surface">Obtén tu Token JWT</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Inicia sesión en la pestaña <strong>Mis Pedidos</strong> o vía <code class="font-code-sm text-primary">/api/v1/auth/login</code>.</p>
+                </div>
+              </div>
+              <div class="flex gap-space-md bg-surface-container-low p-space-md rounded-xl shadow-sm">
+                <div class="shrink-0 w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-label-sm text-label-sm">02</div>
+                <div class="flex flex-col gap-space-xs min-w-0">
+                  <h3 class="font-title-md text-title-md text-on-surface">Envía el Header Authorization</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Incluye tu token en la cabecera <code class="font-code-sm text-primary bg-surface-container-high px-space-xs py-0.5 rounded-lg">Authorization: Bearer &lt;token&gt;</code>.</p>
+                </div>
+              </div>
+              <div class="flex gap-space-md bg-surface-container-low p-space-md rounded-xl shadow-sm">
+                <div class="shrink-0 w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-sm text-label-sm">03</div>
+                <div class="flex flex-col gap-space-xs min-w-0">
+                  <h3 class="font-title-md text-title-md text-on-surface">Ejecuta POST /api/v1/orders/</h3>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">Envía el monto <code class="font-code-sm text-secondary">total_amount</code> y recibe la orden validada con precisión decimal.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 flex flex-col bg-surface-container rounded-xl overflow-hidden shadow-xl">
+            <div class="flex flex-wrap items-center justify-between gap-space-sm bg-surface-container-high px-space-md py-space-sm">
+              <div class="flex items-center gap-space-xs" role="tablist">
+                <button class="code-tab px-space-md py-space-xs rounded-lg font-label-sm text-label-sm bg-primary text-on-primary transition-colors" data-tab="curl" onclick="switchCodeTab('curl')" type="button">cURL</button>
+                <button class="code-tab px-space-md py-space-xs rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" data-tab="js" onclick="switchCodeTab('js')" type="button">JavaScript Fetch</button>
+                <button class="code-tab px-space-md py-space-xs rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" data-tab="python" onclick="switchCodeTab('python')" type="button">Python Requests</button>
+              </div>
+              <div class="flex items-center gap-space-sm">
+                <span class="px-space-sm py-space-xs rounded-lg bg-secondary/10 text-secondary font-label-sm text-label-sm">POST /api/v1/orders/</span>
+                <button class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container-highest transition-colors font-label-sm text-label-sm" onclick="copyActiveCode(this)" type="button">
+                  <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                  <span>Copy</span>
+                </button>
+              </div>
+            </div>
+            <div class="bg-surface-container-lowest p-space-lg overflow-x-auto">
+              <pre class="code-panel font-code-md text-code-md text-on-surface leading-relaxed" id="code-curl"><code>curl --request POST \
+  --url 'http://localhost:8000/api/v1/orders/' \
+  --header 'Authorization: Bearer &lt;TU_TOKEN_JWT&gt;' \
+  --header 'Content-Type: application/json' \
+  --data '{"total_amount": 250.50, "status": "PENDING"}'</code></pre>
+              <pre class="code-panel hidden font-code-md text-code-md text-on-surface leading-relaxed" id="code-js"><code>const response = await fetch('/api/v1/orders/', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ total_amount: 250.50, status: 'PENDING' })
+});
+const order = await response.json();
+console.log(order.order_code);</code></pre>
+              <pre class="code-panel hidden font-code-md text-code-md text-on-surface leading-relaxed" id="code-python"><code>import httpx
+
+response = httpx.post(
+    "http://localhost:8000/api/v1/orders/",
+    headers={"Authorization": "Bearer &lt;TU_TOKEN_JWT&gt;"},
+    json={"total_amount": 250.50, "status": "PENDING"},
+)
+print(response.status_code, response.json())</code></pre>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- VISTA 3: INTERACTIVE API PLAYGROUND (Stitch Screen 3 Conectada)     -->
+      <!-- =================================================================== -->
+      <div id="view-playground" class="view-section hidden flex-col w-full gap-space-lg pb-space-xl pt-space-md">
+        <!-- Barra superior del Playground -->
+        <div class="flex flex-wrap items-center justify-between gap-space-md">
+          <div class="flex items-center gap-space-md min-w-0">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary bg-primary-container/20 px-space-sm py-space-xs rounded-lg">LIVE PLAYGROUND</span>
+            <span class="font-code-sm text-code-sm text-on-surface-variant">Plantillas rápidas:</span>
+            <button onclick="loadPlaygroundPreset('GET', '/health', '')" class="px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high font-code-sm text-code-sm text-secondary" type="button">GET /health</button>
+            <button onclick="loadPlaygroundPreset('GET', '/api/v1/users/me', '')" class="px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high font-code-sm text-code-sm text-secondary" type="button">GET /users/me</button>
+            <button onclick="loadPlaygroundPreset('GET', '/api/v1/orders/?skip=0&limit=10', '')" class="px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high font-code-sm text-code-sm text-secondary" type="button">GET /orders/</button>
+            <button onclick="loadPlaygroundPreset('POST', '/api/v1/orders/', '{\n  &quot;total_amount&quot;: 199.99,\n  &quot;status&quot;: &quot;PENDING&quot;\n}')" class="px-space-sm py-space-xs rounded-lg bg-surface-container-low hover:bg-surface-container-high font-code-sm text-code-sm text-primary" type="button">POST /orders/</button>
+          </div>
+        </div>
+
+        <!-- Split-Pane Workbench -->
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-gutter items-start">
+          <!-- Panel Izquierdo: Request Builder -->
+          <section class="xl:col-span-7 flex flex-col gap-space-md bg-surface-container-low rounded-xl p-space-lg shadow-lg">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm bg-surface-container-lowest p-space-xs rounded-xl shadow-sm">
+              <div class="relative flex-shrink-0">
+                <select id="pgMethodSelect" class="appearance-none bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase pl-space-md pr-space-xl py-space-sm rounded-lg cursor-pointer focus:outline-none">
+                  <option value="GET">GET</option>
+                  <option value="POST" selected>POST</option>
+                  <option value="PATCH">PATCH</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+                <span class="material-symbols-outlined text-[16px] text-on-primary-container pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">expand_more</span>
+              </div>
+              <div class="flex-1 flex items-center min-w-0 px-space-sm">
+                <input id="pgEndpointInput" type="text" value="/api/v1/orders/" class="w-full bg-transparent text-on-surface font-code-md text-code-md focus:outline-none px-space-xs py-space-xs" />
+              </div>
+              <button onclick="executePlaygroundRequest()" id="pgSendBtn" class="flex items-center justify-center gap-space-xs bg-primary hover:bg-primary-fixed-dim text-on-primary font-body-sm text-body-sm font-semibold px-space-lg py-space-sm rounded-lg transition-all shadow-md cursor-pointer" type="button">
+                <span class="material-symbols-outlined text-[18px]">send</span>
+                <span id="pgSendText">Send Request</span>
+              </button>
+            </div>
+
+            <!-- JSON Body Editor -->
+            <div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-inner">
+              <div class="flex items-center justify-between px-space-md py-space-sm bg-surface-container">
+                <div class="flex items-center gap-space-sm">
+                  <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">JSON Request Payload</span>
+                  <span id="pgAuthIndicator" class="font-code-sm text-code-sm text-secondary bg-secondary/10 px-space-xs py-0.5 rounded-lg">Bearer JWT Auto-Attached</span>
+                </div>
+                <button onclick="prettifyPlaygroundBody()" class="font-label-sm text-label-sm text-primary hover:text-primary-fixed transition-colors cursor-pointer" type="button">Prettify JSON</button>
+              </div>
+              <textarea id="pgBodyInput" rows="8" class="w-full bg-surface-container-lowest text-on-surface font-code-md text-code-md p-space-md focus:outline-none resize-y">{
+  "total_amount": 250.50,
+  "status": "PENDING"
+}</textarea>
+            </div>
+          </section>
+
+          <!-- Panel Derecho: Live Response Viewer -->
+          <section class="xl:col-span-5 flex flex-col gap-space-md bg-surface-container-low rounded-xl p-space-lg shadow-lg">
+            <div class="flex flex-wrap items-center justify-between gap-space-sm">
+              <div class="flex items-center gap-space-sm">
+                <span id="pgStatusBadge" class="inline-flex items-center gap-space-xs font-label-sm text-label-sm uppercase bg-surface-container text-on-surface-variant px-space-sm py-space-xs rounded-lg">
+                  LISTO PARA ENVIAR
+                </span>
+                <span id="pgLatencyBadge" class="font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-space-sm py-space-xs rounded-lg">0 ms</span>
+                <span id="pgSizeBadge" class="font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-space-sm py-space-xs rounded-lg">0 B</span>
+              </div>
+              <button onclick="copyText(document.getElementById('pgResponseJson').textContent, this)" class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm transition-colors cursor-pointer" type="button">
+                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                <span>Copy JSON</span>
+              </button>
+            </div>
+
+            <div class="flex flex-col bg-surface-container-lowest rounded-xl overflow-hidden shadow-inner">
+              <div class="flex items-center justify-between px-space-md py-space-sm bg-surface-container">
+                <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Live Response Body</span>
+                <span class="font-code-sm text-code-sm text-on-surface-variant/70">application/json</span>
+              </div>
+              <pre id="pgResponseJson" class="p-space-md font-code-md text-code-md text-on-surface overflow-x-auto leading-relaxed max-h-96">// Presiona "Send Request" para ejecutar la llamada real contra tu servidor FastAPI</pre>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- VISTA 4: ENDPOINT REFERENCE (Stitch Screen 2 con Endpoints Reales)  -->
+      <!-- =================================================================== -->
+      <div id="view-endpoints" class="view-section hidden flex-col w-full pb-space-xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter py-space-lg items-start">
+          <!-- Menú lateral de endpoints -->
+          <aside class="lg:col-span-4 xl:col-span-3 bg-surface-container-low rounded-xl p-space-lg shadow-md flex flex-col gap-space-lg sticky top-20">
+            <div class="flex items-center justify-between">
+              <span class="font-label-sm text-label-sm uppercase text-on-surface-variant tracking-wider">Catálogo Real</span>
+              <span class="font-code-sm text-code-sm text-secondary bg-secondary/10 px-space-sm py-0.5 rounded-lg">FastAPI v1</span>
+            </div>
+            <div class="flex flex-col gap-space-md" id="endpoint-catalog-list"></div>
+          </aside>
+
+          <!-- Detalle del Endpoint seleccionado -->
+          <section class="lg:col-span-8 xl:col-span-9 flex flex-col gap-space-xl min-w-0">
+            <div class="bg-surface-container rounded-xl p-space-lg shadow-md flex flex-col gap-space-md relative overflow-hidden">
+              <div class="flex flex-wrap items-center justify-between gap-space-md">
+                <div class="flex items-center gap-space-sm min-w-0">
+                  <span id="ref-method" class="font-label-sm text-label-sm uppercase px-space-sm py-space-xs rounded-lg bg-secondary/10 text-secondary shrink-0">GET</span>
+                  <h1 id="ref-path" class="font-code-md text-code-md text-on-surface bg-surface-container-lowest px-space-md py-space-xs rounded-lg truncate">/api/v1/orders/</h1>
+                </div>
+                <button id="ref-try-btn" class="flex items-center gap-space-xs px-space-md py-space-sm rounded-xl bg-primary-container text-on-primary-container font-body-sm text-body-sm font-semibold hover:opacity-90 transition-opacity" type="button">
+                  <span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                  <span>Probar en Playground</span>
+                </button>
+              </div>
+              <div class="flex flex-col gap-space-xs">
+                <h2 id="ref-title" class="font-headline-md text-headline-md text-on-surface">Listar Mis Pedidos</h2>
+                <p id="ref-desc" class="font-body-md text-body-md text-on-surface-variant max-w-3xl"></p>
+              </div>
+            </div>
+
+            <!-- Reglas de Producción implementadas en el Sprint -->
+            <div class="bg-surface-container-low rounded-xl p-space-lg shadow-md flex flex-col gap-space-md">
+              <h3 class="font-headline-sm text-headline-sm text-on-surface">Candados de Producción Activos en este Endpoint</h3>
+              <p id="ref-rules" class="font-body-md text-body-md text-secondary"></p>
+            </div>
+
+            <!-- Ejemplo de Respuesta JSON -->
+            <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-xl">
+              <div class="flex items-center justify-between px-space-lg py-space-sm bg-surface-container">
+                <div class="flex items-center gap-space-sm">
+                  <span class="w-2.5 h-2.5 rounded-full bg-error/60"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-tertiary/60"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-secondary/60"></span>
+                  <span class="font-code-sm text-code-sm text-on-surface-variant ml-space-sm">schema_preview.json</span>
+                </div>
+              </div>
+              <pre id="ref-sample-json" class="p-space-lg font-code-md text-code-md text-on-surface overflow-x-auto leading-relaxed"></pre>
+            </div>
+          </section>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL STITCH PARA CREAR NUEVO PEDIDO -->
+  <div id="createOrderModal" class="hidden fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-sm flex items-center justify-center p-space-md">
+    <div class="w-full max-w-md rounded-full bg-surface-container p-space-lg shadow-xl flex flex-col gap-space-lg border border-outline-variant">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="font-label-sm text-label-sm uppercase text-primary">POST /api/v1/orders/</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">Crear Nuevo Pedido</h3>
+        </div>
+        <button onclick="closeOrderModal()" class="w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface flex items-center justify-center" type="button">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <form onsubmit="handleCreateOrder(event)" class="flex flex-col gap-space-md">
+        <div class="flex flex-col gap-space-xs">
+          <label class="font-label-sm text-label-sm uppercase text-on-surface-variant" for="order-amount">Monto Total ($ USD — Numeric 10,2)</label>
+          <input id="order-amount" type="number" required step="0.01" min="0.01" max="99999999.99" placeholder="250.50" class="w-full px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant text-on-surface font-body-md focus:outline-none focus:border-primary" />
+        </div>
+        <div class="flex items-center justify-between px-space-md py-space-sm rounded-xl bg-surface-container-lowest border border-outline-variant/60">
+          <span class="font-label-sm text-label-sm uppercase text-on-surface-variant">Estado</span>
+          <span class="px-space-sm py-0.5 rounded-lg font-label-sm text-label-sm bg-tertiary/15 text-tertiary">PENDING</span>
+        </div>
+
+        <div class="flex items-center justify-end gap-space-sm pt-space-xs">
+          <button onclick="closeOrderModal()" class="px-space-md py-space-sm rounded-xl bg-surface-container-high text-on-surface font-body-sm text-body-sm" type="button">Cancelar</button>
+          <button type="submit" class="px-space-md py-space-sm rounded-xl bg-primary text-on-primary font-body-sm text-body-sm font-semibold">Generar Pedido</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- LÓGICA DE APLICACIÓN CONECTADA AL BACKEND FASTAPI -->
+  <script>
+    const API = "/api/v1";
+
+    // Sanitizador contra ataques XSS al renderizar datos en HTML
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Formateador de errores de FastAPI (soporta strings 400/401/403 y listas 422 de Pydantic)
+    function formatApiError(data, fallback = "Ocurrió un error en la petición") {
+      if (!data || !data.detail) return fallback;
+      if (typeof data.detail === "string") return data.detail;
+      if (Array.isArray(data.detail)) {
+        return data.detail.map(err => `${err.loc ? err.loc.slice(-1)[0] : "campo"}: ${err.msg}`).join(" | ");
+      }
+      return fallback;
+    }
+
+    function showToast(msg, isError = false) {
+      const box = document.getElementById("toast-box");
+      const icon = document.getElementById("toast-icon");
+      const text = document.getElementById("toast-message");
+      text.textContent = msg;
+      icon.textContent = isError ? "error" : "check_circle";
+      box.className = `fixed top-20 right-8 z-50 max-w-md px-space-lg py-space-md rounded-xl shadow-xl border flex items-center gap-space-sm transition-all ${
+        isError
+          ? "bg-error-container/90 border-error text-on-error-container"
+          : "bg-surface-container-high border-secondary text-secondary"
+      }`;
+      box.classList.remove("hidden");
+      setTimeout(() => box.classList.add("hidden"), 4200);
+    }
+
+    function getToken() {
+      return localStorage.getItem("token");
+    }
+
+    // Navegación entre las 4 pantallas de Stitch
+    function switchView(viewName) {
+      document.querySelectorAll(".view-section").forEach(el => {
+        el.classList.add("hidden");
+        el.classList.remove("flex");
+      });
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) {
+        target.classList.remove("hidden");
+        target.classList.add("flex");
+      }
+
+      // Actualizar estado activo en Sidebar
+      document.querySelectorAll("#sidebar-nav .nav-link").forEach(btn => {
+        if (btn.dataset.view === viewName) {
+          btn.className = "nav-link w-full flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-semibold rounded-xl text-body-sm font-body-sm text-left";
+        } else {
+          btn.className = "nav-link w-full flex items-center gap-space-sm px-space-md py-space-sm rounded-xl text-body-sm font-body-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors text-left";
+        }
+      });
+
+      // Actualizar estado activo en Header
+      document.querySelectorAll(".top-nav-link").forEach(btn => {
+        if (btn.dataset.topView === viewName) {
+          btn.className = "top-nav-link transition-colors text-primary font-semibold font-body-sm text-body-sm";
+        } else {
+          btn.className = "top-nav-link font-body-sm text-body-sm text-on-surface-variant hover:text-on-surface transition-colors";
+        }
+      });
+    }
+
+    // Verificar salud real del servidor y Base de Datos (GET /health)
+    async function checkServerHealth() {
+      const start = performance.now();
+      try {
+        const res = await fetch("/health");
+        const ms = Math.round(performance.now() - start);
+        const data = await res.json();
+        const dot = document.getElementById("sidebar-health-dot");
+        const txt = document.getElementById("sidebar-health-text");
+        if (res.ok && data.status === "ok") {
+          dot.className = "w-2 h-2 rounded-full bg-secondary animate-pulse";
+          txt.textContent = `DB: ${(data.database || "OK").toUpperCase()} (${ms}ms)`;
+          document.getElementById("overview-latency").textContent = `${ms}ms ping`;
+        } else {
+          dot.className = "w-2 h-2 rounded-full bg-error";
+          txt.textContent = "DB: ERROR";
+        }
+      } catch {
+        document.getElementById("sidebar-health-dot").className = "w-2 h-2 rounded-full bg-error";
+        document.getElementById("sidebar-health-text").textContent = "OFFLINE";
+      }
+    }
+
+    // 1. REGISTRO DE USUARIO (POST /api/v1/users/)
+    async function handleRegister(e) {
+      e.preventDefault();
+      const res = await fetch(`${API}/users/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: document.getElementById("reg-name").value.trim() || null,
+          email: document.getElementById("reg-email").value.trim(),
+          password: document.getElementById("reg-password").value
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) return showToast(formatApiError(data, "Error al registrar usuario"), true);
+      showToast(`Cuenta creada: ${data.email}. Ahora inicia sesión.`);
+      document.getElementById("login-email").value = data.email;
+      e.target.reset();
+    }
+
+    // 2. LOGIN OAUTH2 (POST /api/v1/auth/login)
+    async function handleLogin(e) {
+      e.preventDefault();
+      const formData = new URLSearchParams();
+      formData.append("username", document.getElementById("login-email").value.trim());
+      formData.append("password", document.getElementById("login-password").value);
+
+      const res = await fetch(`${API}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData
+      });
+      const data = await res.json();
+      if (!res.ok) return showToast(formatApiError(data, "Credenciales inválidas"), true);
+
+      localStorage.setItem("token", data.access_token);
+      e.target.reset();
+      showToast("Sesión iniciada correctamente");
+      await initSession();
+    }
+
+    function logout() {
+      localStorage.removeItem("token");
+      document.getElementById("auth-cards-section").classList.remove("hidden");
+      const dash = document.getElementById("authenticated-dashboard");
+      dash.classList.add("hidden");
+      dash.classList.remove("flex");
+      document.getElementById("openCreateOrderModalBtn").classList.add("hidden");
+      document.getElementById("header-logout-btn").classList.add("hidden");
+      document.getElementById("header-username").textContent = "Invitado";
+    }
+
+    // 3. INICIALIZAR SESIÓN (GET /api/v1/users/me + GET /api/v1/orders/)
+    async function initSession() {
+      const token = getToken();
+      if (!token) return logout();
+
+      const resMe = await fetch(`${API}/users/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!resMe.ok) return logout();
+      const user = await resMe.json();
+
+      document.getElementById("header-username").textContent = user.full_name || user.email;
+      document.getElementById("header-logout-btn").classList.remove("hidden");
+      document.getElementById("stat-user-email").textContent = user.email;
+
+      document.getElementById("auth-cards-section").classList.add("hidden");
+      const dash = document.getElementById("authenticated-dashboard");
+      dash.classList.remove("hidden");
+      dash.classList.add("flex");
+      document.getElementById("openCreateOrderModalBtn").classList.remove("hidden");
+
+      await loadOrders();
+    }
+
+    // 4. CARGAR PEDIDOS (GET /api/v1/orders/)
+    async function loadOrders() {
+      const token = getToken();
+      if (!token) return;
+
+      const res = await fetch(`${API}/orders/?skip=0&limit=100`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (!res.ok) return;
+      const orders = await res.json();
+
+      const pendingCount = orders.filter(o => o.status === "PENDING").length;
+      const paidOrders = orders.filter(o => o.status === "PAID");
+      const cancelledCount = orders.filter(o => o.status === "CANCELLED").length;
+      const totalPaidAmount = paidOrders.reduce((acc, o) => acc + Number(o.total_amount), 0);
+
+      document.getElementById("stat-total").textContent = orders.length;
+      document.getElementById("stat-pending-badge").textContent = `${pendingCount} PENDING`;
+      document.getElementById("stat-cancelled-text").textContent = `${cancelledCount} cancelados`;
+      document.getElementById("stat-amount").textContent = `$${totalPaidAmount.toFixed(2)}`;
+      document.getElementById("stat-paid-badge").textContent = `${paidOrders.length} PAGADOS`;
+      document.getElementById("ordersCountBadge").textContent = `${orders.length} ${orders.length === 1 ? "PEDIDO" : "PEDIDOS"}`;
+
+      const tbody = document.getElementById("ordersTableBody");
+      if (orders.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-space-xl text-center text-on-surface-variant">
+              No tienes pedidos registrados todavía. Haz clic en <strong>Nuevo Pedido</strong> para generar el primero.
+            </td>
+          </tr>`;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => {
+        const isTerminal = o.status === "PAID" || o.status === "CANCELLED";
+        const isPaid = o.status === "PAID";
+        const badgeStyle =
+          o.status === "PAID"
+            ? "bg-secondary/15 text-secondary"
+            : o.status === "CANCELLED"
+            ? "bg-error-container/40 text-error"
+            : "bg-tertiary/15 text-tertiary";
+
+        return `
+          <tr class="hover:bg-surface-container-high/60 transition-colors border-b border-outline-variant/20">
+            <td class="py-space-md px-space-md font-code-sm text-on-surface-variant">#${Number(o.id)}</td>
+            <td class="py-space-md px-space-md">
+              <code class="px-space-sm py-space-xs rounded-lg bg-surface-container-lowest text-primary font-code-sm text-code-sm">${escapeHtml(o.order_code)}</code>
+            </td>
+            <td class="py-space-md px-space-md font-title-md text-on-surface">$${Number(o.total_amount).toFixed(2)}</td>
+            <td class="py-space-md px-space-md">
+              <span class="px-space-sm py-0.5 rounded-lg font-label-sm text-label-sm ${badgeStyle}">${escapeHtml(o.status)}</span>
+            </td>
+            <td class="py-space-md px-space-md text-on-surface-variant">${escapeHtml(new Date(o.created_at).toLocaleString())}</td>
+            <td class="py-space-md px-space-md text-right">
+              <div class="inline-flex items-center gap-space-xs">
+                ${!isTerminal ? `
+                  <button onclick="updateOrderStatus(${Number(o.id)}, 'PAID')" class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-secondary/20 text-secondary hover:bg-secondary hover:text-on-secondary transition-colors font-label-sm text-label-sm" type="button">
+                    <span class="material-symbols-outlined text-[15px]">check_circle</span>
+                    <span>Pagar</span>
+                  </button>
+                  <button onclick="updateOrderStatus(${Number(o.id)}, 'CANCELLED')" class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-tertiary/20 text-tertiary hover:bg-tertiary hover:text-on-tertiary transition-colors font-label-sm text-label-sm" type="button">
+                    <span class="material-symbols-outlined text-[15px]">cancel</span>
+                    <span>Cancelar</span>
+                  </button>
+                ` : `<span class="font-label-sm text-label-sm text-outline px-space-xs">ESTADO TERMINAL</span>`}
+                ${!isPaid ? `
+                  <button onclick="deleteOrder(${Number(o.id)})" class="inline-flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-error-container/40 text-error hover:bg-error hover:text-on-error transition-colors font-label-sm text-label-sm" type="button">
+                    <span class="material-symbols-outlined text-[15px]">delete</span>
+                    <span>Eliminar</span>
+                  </button>
+                ` : `<span class="font-label-sm text-label-sm text-secondary/70 px-space-xs" title="Protegido por regla contable PROD-01">PROTEGIDO</span>`}
+              </div>
+            </td>
+          </tr>`;
+      }).join("");
+    }
+
+    // 5. CREAR PEDIDO (POST /api/v1/orders/)
+    function openOrderModal() {
+      document.getElementById("createOrderModal").classList.remove("hidden");
+      document.getElementById("order-amount").focus();
+    }
+
+    function closeOrderModal() {
+      document.getElementById("createOrderModal").classList.add("hidden");
+    }
+
+    async function handleCreateOrder(e) {
+      e.preventDefault();
+      const res = await fetch(`${API}/orders/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`
+        },
+        body: JSON.stringify({
+          total_amount: parseFloat(document.getElementById("order-amount").value)
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) return showToast(formatApiError(data, "Error al crear pedido"), true);
+      showToast(`Pedido ${data.order_code} creado con éxito`);
+      e.target.reset();
+      closeOrderModal();
+      await loadOrders();
+    }
+
+    // 6. ACTUALIZAR ESTADO (PATCH /api/v1/orders/{id})
+    async function updateOrderStatus(orderId, newStatus) {
+      const res = await fetch(`${API}/orders/${orderId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+      const data = await res.json();
+      if (!res.ok) return showToast(formatApiError(data, "No se pudo actualizar el pedido"), true);
+      showToast(`Pedido #${orderId} actualizado a ${newStatus}`);
+      await loadOrders();
+    }
+
+    // 7. ELIMINAR PEDIDO (DELETE /api/v1/orders/{id})
+    async function deleteOrder(orderId) {
+      const res = await fetch(`${API}/orders/${orderId}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${getToken()}` }
+      });
+      const data = await res.json();
+      if (!res.ok) return showToast(formatApiError(data, "No se pudo eliminar el pedido"), true);
+      showToast(`Pedido #${orderId} eliminado`);
+      await loadOrders();
+    }
+
+    // UTILIDADES DE COPIADO Y QUICKSTART
+    let activeCodeTab = "curl";
+    function switchCodeTab(tab) {
+      activeCodeTab = tab;
+      document.querySelectorAll(".code-panel").forEach(p => p.classList.add("hidden"));
+      document.getElementById("code-" + tab).classList.remove("hidden");
+      document.querySelectorAll(".code-tab").forEach(btn => {
+        if (btn.dataset.tab === tab) {
+          btn.className = "code-tab px-space-md py-space-xs rounded-lg font-label-sm text-label-sm bg-primary text-on-primary transition-colors";
+        } else {
+          btn.className = "code-tab px-space-md py-space-xs rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors";
+        }
+      });
+    }
+
+    function copyText(text, btn) {
+      if (navigator.clipboard) navigator.clipboard.writeText(text);
+      showToast("Copiado al portapapeles");
+    }
+
+    function copyCurrentJwt(btn) {
+      const token = getToken();
+      if (!token) return showToast("Inicia sesión primero", true);
+      copyText(token, btn);
+    }
+
+    function copyActiveCode(btn) {
+      const panel = document.getElementById("code-" + activeCodeTab);
+      if (panel) copyText(panel.innerText, btn);
+    }
+
+    // PLAYGROUND EN VIVO
+    function loadPlaygroundPreset(method, url, body) {
+      document.getElementById("pgMethodSelect").value = method;
+      document.getElementById("pgEndpointInput").value = url;
+      document.getElementById("pgBodyInput").value = body;
+      switchView("playground");
+    }
+
+    function prettifyPlaygroundBody() {
+      const input = document.getElementById("pgBodyInput");
+      try {
+        input.value = JSON.stringify(JSON.parse(input.value), null, 2);
+      } catch {
+        showToast("El JSON no es válido para formatear", true);
+      }
+    }
+
+    async function executePlaygroundRequest() {
+      const method = document.getElementById("pgMethodSelect").value;
+      const url = document.getElementById("pgEndpointInput").value.trim();
+      const rawBody = document.getElementById("pgBodyInput").value.trim();
+      const token = getToken();
+
+      const headers = {};
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      const options = { method, headers };
+
+      if (method !== "GET" && method !== "DELETE" && rawBody) {
+        headers["Content-Type"] = "application/json";
+        options.body = rawBody;
+      }
+
+      const sendText = document.getElementById("pgSendText");
+      sendText.textContent = "Enviando...";
+      const start = performance.now();
+
+      try {
+        const res = await fetch(url, options);
+        const ms = Math.round(performance.now() - start);
+        const text = await res.text();
+        const bytes = new Blob([text]).size;
+
+        document.getElementById("pgLatencyBadge").textContent = `${ms} ms`;
+        document.getElementById("pgSizeBadge").textContent = `${bytes} B`;
+
+        const badge = document.getElementById("pgStatusBadge");
+        badge.textContent = `${res.status} ${res.statusText}`;
+        badge.className = `inline-flex items-center gap-space-xs font-label-sm text-label-sm uppercase px-space-sm py-space-xs rounded-lg ${
+          res.ok ? "bg-secondary/15 text-secondary" : "bg-error-container/50 text-error"
+        }`;
+
+        try {
+          document.getElementById("pgResponseJson").textContent = JSON.stringify(JSON.parse(text), null, 2);
+        } catch {
+          document.getElementById("pgResponseJson").textContent = text;
+        }
+      } catch (err) {
+        document.getElementById("pgResponseJson").textContent = `Error de red: ${err.message}`;
+      } finally {
+        sendText.textContent = "Send Request";
+      }
+    }
+
+    // CATÁLOGO INTERACTIVO DE ENDPOINTS REALES (Vista 4)
+    const ENDPOINT_CATALOG = [
+      {
+        id: "get-orders",
+        group: "Órdenes",
+        method: "GET",
+        path: "/api/v1/orders/?skip=0&limit=100",
+        title: "Listar Mis Pedidos",
+        desc: "Devuelve el historial de pedidos del usuario autenticado ordenados por fecha de creación descendente (los más recientes primero).",
+        rules: "✅ Paginación blindada con Query(ge=0) y Query(ge=1, le=100) • ✅ Sin selectinload redundante • ✅ Orden determinista ORDER BY created_at DESC.",
+        sampleBody: "",
+        sampleResponse: [
+          {
+            id: 1,
+            order_code: "ORD-20261121-A1B2C3",
+            total_amount: 250.5,
+            status: "PENDING",
+            user_id: 1,
+            created_at: "2026-11-21T17:00:00Z",
+            updated_at: "2026-11-21T17:00:00Z"
+          }
+        ]
+      },
+      {
+        id: "post-orders",
+        group: "Órdenes",
+        method: "POST",
+        path: "/api/v1/orders/",
+        title: "Crear Nuevo Pedido",
+        desc: "Crea una orden asociada al usuario del token JWT y autogenera el código único ORD-YYYYMMDD-HEX6 en el backend.",
+        rules: "✅ Precisión Decimal Numeric(10, 2) • ✅ Reintento automático (hasta 3 intentos) ante colisión de order_code (IntegrityError).",
+        sampleBody: '{\n  "total_amount": 150.00,\n  "status": "PENDING"\n}',
+        sampleResponse: {
+          id: 2,
+          order_code: "ORD-20261121-9F8E7D",
+          total_amount: 150.0,
+          status: "PENDING",
+          user_id: 1,
+          created_at: "2026-11-21T17:05:00Z",
+          updated_at: "2026-11-21T17:05:00Z"
+        }
+      },
+      {
+        id: "patch-orders",
+        group: "Órdenes",
+        method: "PATCH",
+        path: "/api/v1/orders/1",
+        title: "Actualizar Estado o Monto de Pedido",
+        desc: "Permite pagar (PAID), cancelar (CANCELLED) o ajustar el monto de un pedido propio mientras esté en estado PENDING.",
+        rules: "✅ Protección anti-IDOR (403 Forbidden si el pedido pertenece a otro usuario) • ✅ Máquina de Estados: bloquea con 400 Bad Request si ya está PAID o CANCELLED.",
+        sampleBody: '{\n  "status": "PAID"\n}',
+        sampleResponse: {
+          id: 1,
+          order_code: "ORD-20261121-A1B2C3",
+          total_amount: 250.5,
+          status: "PAID",
+          user_id: 1
+        }
+      },
+      {
+        id: "delete-orders",
+        group: "Órdenes",
+        method: "DELETE",
+        path: "/api/v1/orders/1",
+        title: "Eliminar Pedido",
+        desc: "Elimina un pedido propio siempre y cuando no haya sido pagado.",
+        rules: "✅ Regla Contable PROD-01: Prohibido borrar órdenes en estado PAID (400 Bad Request) • ✅ Borrado directo en sesión sin doble SELECT.",
+        sampleBody: "",
+        sampleResponse: {
+          detail: "No se puede eliminar un pedido que ya ha sido pagado"
+        }
+      },
+      {
+        id: "post-users",
+        group: "Usuarios & Auth",
+        method: "POST",
+        path: "/api/v1/users/",
+        title: "Registrar Usuario",
+        desc: "Registra un nuevo usuario encriptando su contraseña con bcrypt en un threadpool asíncrono.",
+        rules: "✅ Normalización de email a minúsculas • ✅ Límite max_length=72 para bcrypt 5.0 • ✅ Captura de Race Condition (IntegrityError) ante doble clic.",
+        sampleBody: '{\n  "email": "nuevo@ejemplo.com",\n  "full_name": "Diego Dev",\n  "password": "passwordSeguro123"\n}',
+        sampleResponse: {
+          id: 1,
+          email: "nuevo@ejemplo.com",
+          full_name: "Diego Dev",
+          created_at: "2026-11-21T17:00:00Z"
+        }
+      },
+      {
+        id: "get-users-me",
+        group: "Usuarios & Auth",
+        method: "GET",
+        path: "/api/v1/users/me",
+        title: "Perfil del Usuario Actual",
+        desc: "Decodifica el token JWT Bearer, verifica que el usuario exista y esté activo (is_active=True) y devuelve su perfil.",
+        rules: "✅ Verificación inmediata de user.is_active (403 Forbidden si la cuenta fue suspendida).",
+        sampleBody: "",
+        sampleResponse: {
+          id: 1,
+          email: "cliente@ejemplo.com",
+          full_name: "Cliente Uno",
+          created_at: "2026-11-21T17:00:00Z"
+        }
+      },
+      {
+        id: "get-health",
+        group: "Sistema",
+        method: "GET",
+        path: "/health",
+        title: "Healthcheck con Ping SQL",
+        desc: "Verifica la salud real del servicio ejecutando SELECT 1 de forma asíncrona contra la base de datos.",
+        rules: "✅ Ejecuta await db.execute(text('SELECT 1')) en tiempo real.",
+        sampleBody: "",
+        sampleResponse: {
+          status: "ok",
+          database: "connected",
+          environment: "WSL2 Ubuntu"
+        }
+      }
+    ];
+
+    function renderEndpointCatalog() {
+      const container = document.getElementById("endpoint-catalog-list");
+      container.innerHTML = ENDPOINT_CATALOG.map(ep => {
+        const badgeColor =
+          ep.method === "GET"
+            ? "bg-secondary/10 text-secondary"
+            : ep.method === "POST"
+            ? "bg-primary/10 text-primary"
+            : ep.method === "PATCH"
+            ? "bg-tertiary/10 text-tertiary"
+            : "bg-error/10 text-error";
+        return `
+          <button onclick="selectEndpointRef('${ep.id}')" class="w-full flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-left hover:bg-surface-container-high transition-colors">
+            <span class="font-label-sm text-label-sm uppercase px-space-xs py-0.5 rounded-lg ${badgeColor} shrink-0 w-14 text-center">${ep.method}</span>
+            <span class="font-code-sm text-code-sm text-on-surface truncate">${ep.path.split("?")[0]}</span>
+          </button>`;
+      }).join("");
+      selectEndpointRef(ENDPOINT_CATALOG[0].id);
+    }
+
+    function selectEndpointRef(id) {
+      const ep = ENDPOINT_CATALOG.find(item => item.id === id);
+      if (!ep) return;
+      document.getElementById("ref-method").textContent = ep.method;
+      document.getElementById("ref-path").textContent = ep.path;
+      document.getElementById("ref-title").textContent = ep.title;
+      document.getElementById("ref-desc").textContent = ep.desc;
+      document.getElementById("ref-rules").textContent = ep.rules;
+      document.getElementById("ref-sample-json").textContent = JSON.stringify(ep.sampleResponse, null, 2);
+      document.getElementById("ref-try-btn").onclick = () => loadPlaygroundPreset(ep.method, ep.path, ep.sampleBody);
+    }
+
+    // Inicializar al abrir la página
+    document.getElementById("base-url-text").textContent = window.location.origin + "/api/v1";
+    renderEndpointCatalog();
+    checkServerHealth();
+    if (getToken()) initSession();
+  </script>
+</body>
+</html>
